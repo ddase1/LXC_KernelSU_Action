@@ -157,7 +157,7 @@ jobs:
              patch -p0 < $GITHUB_WORKSPACE/kernel_workspace/android-kernel/utils/xt_qtaguid.patch
         fi
     - name: 打入lxc补丁
-      if: env.LXC_PATCH == 'true'
+      if: env.ENABLE_LXC == 'true'
       run: |
        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
        wget https://raw.githubusercontent.com/wu17481748/android-lxc-docker/main/LXC-DOCKER-OPEN-CONFIG.sh
