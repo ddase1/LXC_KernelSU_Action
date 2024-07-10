@@ -156,7 +156,15 @@ jobs:
         if [ -f $GITHUB_WORKSPACE/kernel_workspace/android-kernel/net/netfilter/xt_qtaguid.c ]; then
              patch -p0 < $GITHUB_WORKSPACE/kernel_workspace/android-kernel/utils/xt_qtaguid.patch
         fi
-       
+    - name: 打入lxc补丁
+      if: env.LXC_PATCH == 'true'
+      run: |
+       cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+       wget https://raw.githubusercontent.com/wu17481748/android-lxc-docker/main/LXC-DOCKER-OPEN-CONFIG.sh
+       chmod a+x LXC-DOCKER-OPEN-CONFIG.sh
+       if [ -f arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }} ]; then
+       ./LXC-DOCKER-OPEN-CONFIG.sh arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }} -w  
+       fi  
     - name: Setup ccache
       if: env.ENABLE_CCACHE == 'true'
       uses: hendrikmuhs/ccache-action@v1.2
